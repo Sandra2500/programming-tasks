@@ -1,0 +1,22 @@
+from mod import calculate_total_distance  # Імпортуємо функцію з модуля
+
+# Функція для обчислення z = 1 / sqrt(m + 2)
+def calculate_z(m):
+    if m + 2 < 0:
+        return "Помилка: m + 2 повинно бути >= 0."
+    z = 1 / ((m + 2) ** 0.5)
+    return z
+
+# Основна програма
+if __name__ == "__main__":
+    # Виклик функції для обчислення z
+    m = float(input("Введіть значення m: "))
+    z = calculate_z(m)
+    print("Значення z =", z)
+
+    # Виклик функції для обчислення сумарного шляху
+    n = int(input("Введіть кількість днів тренувань (n): "))
+    while n <= 0:
+        n = int(input("Кількість днів має бути більше 0. Введіть ще раз: "))
+    total_distance = calculate_total_distance(n)  # Виклик функції з модуля
+    print(f"Сумарний шлях за {n} днів = {total_distance:.2f} км")
