@@ -1,1 +1,30 @@
+# Функція для обчислення z = 1 / sqrt(m + 2)
+def calculate_z(m):
+    if m + 2 < 0:
+        return "Помилка: m + 2 повинно бути >= 0."
+    z = 1 / ((m + 2) ** 0.5)
+    return z
 
+# Функція для обчислення сумарного шляху за n днів
+def calculate_total_distance(n):
+    distance = 10  # Відстань у перший день
+    total_distance = 0
+    for day in range(n):
+        total_distance += distance
+        distance *= 1.1  # Щоденне збільшення на 10%
+    return total_distance
+
+# Основна програма
+if __name__ == "__main__":
+    
+    # Виклик функції для обчислення z
+    m = float(input("Введіть значення m: "))
+    z = calculate_z(m)
+    print("Значення z =", z)
+
+    # Виклик функції для обчислення сумарного шляху
+    n = int(input("Введіть кількість днів тренувань (n): "))
+    while n <= 0:
+        n = int(input("Кількість днів має бути більше 0. Введіть ще раз: "))
+    total_distance = calculate_total_distance(n)
+    print(f"Сумарний шлях за {n} днів = {total_distance:.2f} км")
