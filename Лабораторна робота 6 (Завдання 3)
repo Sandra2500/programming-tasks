@@ -1,0 +1,33 @@
+# Функція для визначення, яких літер більше - голосних чи приголосних
+def compare_vowels_and_consonants(text):
+    vowels = {'a', 'e', 'i', 'o', 'u', 'y'}  # Множина голосних
+    consonants = {'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'z'}  # Множина приголосних
+    
+    # Перетворюємо текст на нижній регістр для порівняння
+    text = text.lower()
+    
+    # Лічильники голосних і приголосних
+    vowels_count = 0
+    consonants_count = 0
+    
+    for char in text:
+        if char.isalpha():  # Перевіряємо, чи це буква
+            if char in vowels:
+                vowels_count += 1
+            elif char in consonants:
+                consonants_count += 1
+    
+    # Якщо голосних більше
+    if vowels_count > consonants_count:
+        print("Голосних більше:", vowels_count)
+    elif consonants_count > vowels_count:
+        print("Приголосних більше:", consonants_count)
+    else:
+        print("Голосних і приголосних однакова кількість:", vowels_count)
+
+# Основна частина програми
+# Користувач вводить текст
+text = input("Введіть текст: ")
+
+# Викликаємо функцію для визначення, яких літер більше
+compare_vowels_and_consonants(text)
