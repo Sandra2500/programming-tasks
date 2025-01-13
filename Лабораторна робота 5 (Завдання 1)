@@ -1,0 +1,21 @@
+# Запитуємо розмір масиву
+n = int(input("Введіть кількість елементів масиву: "))
+
+# Ініціалізація порожнього масиву
+arr = []
+
+# Запитуємо елементи масиву
+print("Введіть елементи масиву:")
+for i in range(n):
+    element = float(input(f"Елемент {i+1}: "))
+    arr.append(element)
+
+# Фільтруємо від’ємні елементи
+negative_elements = [x for x in arr if x < 0]
+
+# Обчислюємо середнє арифметичне від’ємних елементів
+if negative_elements:  # Якщо є від’ємні елементи
+    average = sum(negative_elements) / len(negative_elements)
+    print(f"Середнє арифметичне від'ємних елементів масиву: {average}")
+else:
+    print("В масиві немає від'ємних елементів.")
