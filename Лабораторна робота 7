@@ -1,0 +1,89 @@
+# Початкові дані про країни
+countries = {
+    "Україна": {"площа": 603628, "населення": 41500000, "континент": "Європа"},
+    "Китай": {"площа": 9596961, "населення": 1393409038, "континент": "Азія"},
+    "Нігерія": {"площа": 923768, "населення": 206700000, "континент": "Африка"},
+    "Японія": {"площа": 377975, "населення": 126800000, "континент": "Азія"},
+    "Індія": {"площа": 3287263, "населення": 1380004385, "континент": "Азія"},
+    "Египет": {"площа": 1002450, "населення": 102000000, "континент": "Африка"},
+    "Канада": {"площа": 9984670, "населення": 38005238, "континент": "Північна Америка"},
+    "Бразилія": {"площа": 8515767, "населення": 211000000, "континент": "Південна Америка"},
+    "ПАР": {"площа": 1219090, "населення": 59000000, "континент": "Африка"},
+    "Австралія": {"площа": 7692024, "населення": 25000000, "континент": "Австралія"},
+}
+
+# Функція для виведення всіх записів
+def print_all(countries):
+    for country, data in countries.items():
+        print(f"{country}: Площа = {data['площа']} км², Населення = {data['населення']}, Континент = {data['континент']}")
+
+# Функція для додавання нового запису
+def add_country(countries):
+    country_name = input("Введіть назву країни: ")
+    if country_name in countries:
+        print(f"Країна {country_name} вже є в списку.")
+        return
+    area = int(input("Введіть площу країни (км²): "))
+    population = int(input("Введіть населення країни: "))
+    continent = input("Введіть континент, де розташована країна: ")
+    countries[country_name] = {"площа": area, "населення": population, "континент": continent}
+    print(f"Країна {country_name} успішно додана.")
+
+# Функція для видалення запису
+def remove_country(countries):
+    country_name = input("Введіть назву країни, яку потрібно видалити: ")
+    if country_name not in countries:
+        print(f"Країна {country_name} не знайдена.")
+        return
+    del countries[country_name]
+    print(f"Країна {country_name} успішно видалена.")
+
+# Функція для перегляду словника за відсортованими ключами
+def sorted_view(countries):
+    sorted_countries = sorted(countries.keys())
+    for country in sorted_countries:
+        print(f"{country}: {countries[country]}")
+
+# Функція для пошуку країн в Африці або Азії
+def find_countries_in_continents(countries, continents):
+    found_countries = []
+    for country, data in countries.items():
+        if data["континент"] in continents:
+            found_countries.append(country)
+    if found_countries:
+        print("Країни в зазначених континентах: ", ", ".join(found_countries))
+    else:
+        print("Країн у зазначених континентах не знайдено.")
+
+# Основний діалог
+def main():
+    while True:
+        print("\nМеню:")
+        print("1. Вивести всі країни")
+        print("2. Додати нову країну")
+        print("3. Видалити країну")
+        print("4. Переглянути країни в алфавітному порядку")
+        print("5. Пошук країн в Африці чи Азії")
+        print("6. Вихід")
+        
+        choice = input("Виберіть опцію: ")
+
+        if choice == "1":
+            print_all(countries)
+        elif choice == "2":
+            add_country(countries)
+        elif choice == "3":
+            remove_country(countries)
+        elif choice == "4":
+            sorted_view(countries)
+        elif choice == "5":
+            find_countries_in_continents(countries, ["Африка", "Азія"])
+        elif choice == "6":
+            print("Вихід з програми.")
+            break
+        else:
+            print("Невірний вибір. Спробуйте ще раз.")
+
+# Запуск основної програми
+if __name__ == "__main__":
+    main()
