@@ -1,0 +1,92 @@
+import os
+import string
+
+# Функція для безпечного відкриття файлу
+def Open(file_name, mode):
+    try:
+        file = open(file_name, mode, encoding="utf-8")
+    except:
+        print(f"File {file_name} wasn't opened!")
+        return None
+    else:
+        print(f"File {file_name} was opened!")
+        return file
+
+# Створення файлу TF4_1 з текстом, що містить слова різної довжини
+def create_file_TF4_1():
+    file_name = "TF4_1.txt"
+    file_1_w = Open(file_name, "w")
+    if file_1_w != None:
+        lines = [
+            "Python is a great programming language.",
+            "It is widely used in web development, data science, and artificial intelligence.",
+            "This file contains words of various lengths.",
+            "Some words are short, others are longer."
+        ]
+        for line in lines:
+            file_1_w.write(line + "\n")
+        file_1_w.close()
+        print(f"Information was successfully added to {file_name}!")
+        print(f"File {file_name} was closed!")
+
+# Підрахунок слів за довжиною та запис результатів у TF4_2
+def count_words_and_save_to_TF4_2():
+    file1_name = "TF4_1.txt"
+    file2_name = "TF4_2.txt"
+    
+    # Відкриваємо TF4_1 для читання
+    file_2_r = Open(file1_name, "r")
+    # Відкриваємо TF4_2 для запису
+    file_2_w = Open(file2_name, "w")
+    
+    if file_2_r != None and file_2_w != None:
+        # Читаємо вміст файлу TF4_1
+        text = file_2_r.read()
+        # Очищаємо від розділових знаків
+        text = text.translate(str.maketrans('', '', string.punctuation))
+        
+        # Розбиваємо текст на слова
+        words = text.split()
+        
+        # Підраховуємо кількість слів для кожної довжини
+        word_length_count = {}
+        for word in words:
+            word_length = len(word)
+            if word_length <= 16:  # Підраховуємо тільки слова до 16 символів
+                if word_length not in word_length_count:
+                    word_length_count[word_length] = 0
+                word_length_count[word_length] += 1
+        
+        # Записуємо кількість слів для кожної довжини у TF4_2.txt
+        for length in range(1, 17):  # Для кожної довжини від 1 до 16
+            count = word_length_count.get(length, 0)
+            file_2_w.write(f"Слова з {length} символів: {count}\n")
+        
+        file_2_r.close()
+        file_2_w.close()
+        print(f"Results have been successfully saved to {file2_name}!")
+
+# Читання вмісту файлу TF4_2 і виведення на екран
+def print_file_content(file_name):
+    file_r = Open(file_name, "r")
+    if file_r != None:
+        for line in file_r.read().splitlines():
+            print(line)
+        file_r.close()
+        print(f"File {file_name} was closed!")
+
+# Основна програма
+def main():
+    # Створення файлу TF4_1
+    create_file_TF4_1()
+    
+    # Підрахунок слів у файлі TF4_1 та запис результату в TF4_2
+    count_words_and_save_to_TF4_2()
+    
+    # Виведення вмісту файлу TF4_2
+    print("\nFile TF4_2 contents:")
+    print_file_content("TF4_2.txt")
+
+# Запуск основної програми
+if __name__ == "__main__":
+    main()
