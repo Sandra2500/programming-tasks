@@ -1,0 +1,59 @@
+import csv
+
+# Імена файлів
+input_filename = "gdp_data.csv"   # Вхідний файл
+output_filename = "filtered_gdp.csv"  # Файл із відфільтрованими результатами
+
+try:
+    # Відкриваємо вхідний файл для читання
+    with open(input_filename, newline='', encoding='utf-8') as csvfile:
+        reader = csv.reader(csvfile)
+        header = next(reader)  # Зчитуємо заголовок
+        
+        # Перевіряємо, чи файл має правильну кількість колонок
+        if len(header) < 5 or header[4] != "2016 [YR2016]":
+            raise ValueError("Неправильний формат CSV-файлу!")
+
+        # Збираємо дані
+        data = [["Country", "GDP per capita"]]
+        for row in reader:
+            if len(row) < 5:  # Пропускаємо рядки без достатньої кількості колонок
+                continue
+
+            country = row[2]  # Назва країни
+            gdp_per_capita = row[4]  # GDP за 2016 рік
+
+            # Перевіряємо, чи значення GDP є числом
+            try:
+                gdp_value = float(gdp_per_capita)
+                data.append([country, gdp_value])
+            except ValueError:
+                continue  # Пропускаємо, якщо значення не є числом
+
+    # Виводимо вміст на екран
+    print("\n--- Дані з файлу ---")
+    for row in data:
+        print(row)
+
+    # Отримуємо порогове значення від користувача
+    threshold = float(input("\nВведіть мінімальне значення GDP per capita: "))
+
+    # Фільтруємо країни за критерієм
+    filtered_data = [data[0]]  # Заголовок
+    for row in data[1:]:
+        if row[1] > threshold:
+            filtered_data.append(row)
+
+    # Записуємо результати у вихідний файл
+    with open(output_filename, mode="w", newline='', encoding='utf-8') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(filtered_data)
+
+    print(f"\nРезультати збережено у файл '{output_filename}'")
+
+except FileNotFoundError:
+    print(f"Помилка: Файл '{input_filename}' не знайдено!")
+except ValueError as e:
+    print(f"Помилка: {e}")
+except Exception as e:
+    print(f"Несподівана помилка: {e}")
