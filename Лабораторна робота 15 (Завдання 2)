@@ -1,0 +1,18 @@
+import pandas as pd
+
+# Завантаження даних  
+df = pd.read_csv("bicycle.csv", parse_dates=["Date"], dayfirst=True)
+
+# Видалення пустих стовпців та стовпця з годиною (якщо він є)  
+df = df.dropna(axis=1, how="all")
+
+# Виділення місяця  
+df["Month"] = df["Date"].dt.month
+
+# Сума велосипедистів за кожен місяць  
+monthly_totals = df.groupby("Month").sum(numeric_only=True)
+
+# Визначення найпопулярнішого місяця  
+most_popular_month = monthly_totals.sum(axis=1).idxmax()
+
+print(f"Найпопулярніший місяць: {most_popular_month}")
