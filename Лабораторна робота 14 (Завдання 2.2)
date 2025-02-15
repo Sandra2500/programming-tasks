@@ -1,0 +1,33 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 1. Завантаження даних
+file_path = 'population.csv'  # Вкажіть правильний шлях до CSV-файлу
+df = pd.read_csv(file_path, skiprows=0)
+
+# 2. Видаляємо зайві рядки (залишаємо лише дві країни)
+df = df.iloc[:2]
+
+# 3. Вибираємо потрібні стовпці (роки 2004-2023)
+df = df[['Country Name'] + [f'{year} [YR{year}]' for year in range(2004, 2024)]]
+
+# 4. Перейменовуємо стовпці
+df.columns = ['Country'] + list(range(2004, 2024))
+
+# 5. Перетворюємо значення у числовий формат
+df = df.set_index('Country').transpose().apply(pd.to_numeric, errors='coerce')
+
+# 6. Вибір країни для стовпчастої діаграми
+country = input("Введіть назву країни (Ukraine або France): ").strip()
+
+if country in df.columns:
+    plt.figure(figsize=(10, 6))
+    plt.bar(df.index, df[country], color='skyblue')
+    plt.xlabel('Рік')
+    plt.ylabel('Чисельність населення')
+    plt.title(f'Чисельність населення у {country} (2004–2023)')
+    plt.xticks(ticks=range(2004, 2023, 2))  # Фіксовані цілі роки
+    plt.grid(True)
+    plt.show()
+else:
+    print("Невідома країна. Будь ласка, введіть 'Ukraine' або 'France'.")
