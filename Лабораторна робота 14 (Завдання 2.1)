@@ -1,0 +1,34 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Завантаження даних
+file_path = 'population.csv'  # Вкажіть правильний шлях
+df = pd.read_csv(file_path, skiprows=0)
+
+# Видаляємо зайві рядки (залишаємо лише дві країни)
+df = df.iloc[:2]
+
+# Очищення назв стовпців (видалення [YRxxxx])
+df.columns = df.columns.str.replace(r' \[YR\d+\]', '', regex=True)
+
+# Перетворення у правильний формат
+df = df.set_index('Country Name').transpose()
+
+# Видаляємо всі рядки, які не є роками
+df = df[df.index.str.isnumeric()]  # Видаляємо зайві підписи, залишаємо лише числа
+df.index = df.index.astype(int)  # Перетворюємо роки в int
+
+# Перетворення населення у числовий формат
+df = df.apply(pd.to_numeric, errors='coerce')
+
+# Побудова лінійного графіка
+plt.figure(figsize=(10, 6))
+plt.plot(df.index, df['Ukraine'], marker='o', label='Україна')
+plt.plot(df.index, df['France'], marker='o', label='Франція')
+plt.xlabel('Рік')
+plt.ylabel('Чисельність населення')
+plt.title('Динаміка чисельності населення України та Франції (2004–2023)')
+plt.xticks(ticks=range(2004, 2023, 2))  # Фіксовані цілі роки
+plt.legend()
+plt.grid(True)
+plt.show()
