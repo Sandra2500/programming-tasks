@@ -1,0 +1,21 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Генеруємо значення x
+x = np.linspace(-3, 3, 500)
+
+# Обчислюємо значення функції Y(x)
+y = 2**x * np.sin(10*x)
+
+# Створюємо графік
+plt.plot(x, y, label=r'$Y(x) = 2^x \cdot \sin(10x)$', color="blue", linewidth=2, linestyle="-")
+
+# Налаштування графіка
+plt.title("Графік функції Y(x) = 2^x * sin(10x)", fontsize=14)
+plt.xlabel("x", fontsize=12)
+plt.ylabel("Y(x)", fontsize=12)
+plt.legend()
+plt.grid(True)
+
+# Відображення графіка
+plt.show()
