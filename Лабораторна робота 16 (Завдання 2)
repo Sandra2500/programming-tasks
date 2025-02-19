@@ -1,0 +1,35 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+import string
+
+# Завантажуємо необхідні дані для NLTK
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+# Функція для обробки тексту
+def process_text(input_file, output_file):
+    # Зчитуємо вхідний текст
+    with open(input_file, 'r', encoding='utf-8') as file:
+        text = file.read()
+        
+    # Токенізація (розбиття на слова)
+    tokens = word_tokenize(text)
+    
+    # Видалення пунктуації та стоп-слів
+    stop_words = set(stopwords.words('english'))
+    tokens = [word.lower() for word in tokens if word.isalnum() and word.lower() not in stop_words]
+    
+    # Лемматизація та стемінг
+    lemmatizer = WordNetLemmatizer()
+    stemmer = PorterStemmer()
+    processed_tokens = [lemmatizer.lemmatize(stemmer.stem(word)) for word in tokens]
+    
+    # Записуємо результат у вихідний файл
+    with open(output_file, 'w', encoding='utf-8') as file:
+        file.write(" ".join(processed_tokens))
+        
+# Викликаємо функцію для обробки тексту
+process_text(r'C:\Users\Oleksandra\OneDrive\Рабочий стол\Новая папка (2)\input.txt', r'C:\Users\Oleksandra\OneDrive\Рабочий стол\Новая папка (2)\output.txt')
