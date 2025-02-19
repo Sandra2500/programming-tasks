@@ -1,0 +1,57 @@
+import nltk
+import string
+import matplotlib.pyplot as plt
+from collections import Counter
+from nltk.corpus import stopwords
+from nltk.corpus import gutenberg
+from nltk.tokenize import word_tokenize
+
+# Завантажуємо необхідні ресурси NLTK (якщо ще не завантажені)
+nltk.download('gutenberg')
+nltk.download('punkt')
+nltk.download('stopwords')
+
+# Завантажуємо текст "austen-sense.txt"
+text = gutenberg.raw('austen-sense.txt')
+
+# Функція підрахунку кількості слів у тексті
+def count_words(text):
+    words = word_tokenize(text) # Токенізуємо текст у слова   
+    return len(words)
+
+# Функція знаходження 10 найбільш вживаних слів та побудови діаграми
+def most_used_words(text, title):
+    words = word_tokenize(text) # Токенізуємо текст   
+    cnt = Counter(words) # Рахуємо частоту слів   
+    common_words = cnt.most_common(10) # Беремо 10 найпопулярніших слів
+    
+    # Розділяємо список на слова та їх кількість
+    x = [word[0] for word in common_words]
+    y = [word[1] for word in common_words]
+    
+    # Будуємо стовпчасту діаграму   
+    plt.figure(figsize=(10, 5))
+    plt.bar(x, y, color='blue')
+    plt.title(title)
+    plt.xlabel("Слова")
+    plt.ylabel("Частота")
+    plt.xticks(rotation=45)
+    plt.show()
+    
+# Підраховуємо загальну кількість слів
+total_words = count_words(text)
+print(f"Загальна кількість слів у тексті: {total_words}")
+
+# Будуємо першу діаграму без очищення
+most_used_words(text, "10 найбільш вживаних слів (без очищення)")
+
+# Очищення тексту від стоп-слів і пунктуації
+def clean_text(text):
+    words = word_tokenize(text) # Токенізуємо текст   
+    stop_words = set(stopwords.words('english')) # Завантажуємо стоп-слова   
+    words = [word.lower() for word in words if word.isalnum()] # Видаляємо пунктуацію   
+    words = [word for word in words if word not in stop_words] # Видаляємо стоп-слова   
+    return words
+cleaned_text = clean_text(text) # Очищаємо текст
+# Будуємо другу діаграму після очищення
+most_used_words(" ".join(cleaned_text), "10 найбільш вживаних слів (після очищення)")
